@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Institutional assessment platform</title> -->
+    <title>{% block title %}sign Up{% endblock %}</title>
+    <!-- <link rel="shortcut icon" type="image/png" href="images/my_logo3.jpg" /> -->
+    <!-- font awesome cdnjs link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <!-- custom css file link -->
+    <link rel="stylesheet" href="../static/styles.css">
+    
+</head>
+
+<body>
+
+    <div class="formCont">
+        <label for="click"> <i class="fas fa-times"></i></label>
+        <div class="formHeader">
+            <h1>Sign Up New Account</h1>
+        </div>
+
+        <!-- flash messages categorized starts-->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'error' %}
+            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% else %}
+            <div class="alert alert-success alter-dismissable fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- flash messages categorized ends -->
+        <!-- form method="POST", action="/sign_up"> -->
+        <form method="POST" action="{{ url_for('auth.sign_up') }}">
+            <div class="User_inf">
+                <label for="firstName">Full Name</label><br>
+                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your Full name here">
+            </div>
+
+            <div class="User_inf">
+                <label for="phone_number">Phone Number</label><br>
+                <input type="number" class="form-control" id="phone_number" name="phone_number" placeholder="Enter 10 digit phone number here">
+            </div>
+        
+            <div class="User_inf">
+                <label for="password1">Password</label><br>
+                <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter password">
+            </div>
+
+            <div class="User_inf">
+                <label for="password2">Confirm Password</label><br>
+                <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm password">
+            </div>
+
+            <div class="termsField">
+                <input type="checkbox" name="check">
+                <!-- <label>I Agree with terms & conditions</label> -->
+                <label>I Agree with  <a href="#" class="link-color">Terms & Condition</a></label>
+
+            </div>
+        
+            <div class="btnCont">
+            <!-- <input type="button" name="submit" value="Register"> -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+
+            <div class="altField">
+                <span> Already have an account? </span>
+                <!-- <a href="#">Login Now</a> -->
+                <a href="/login" class="link-color">Login Now</a>
+            </div>
+
+        </form>
+
+    </div>
+
+<script src="../static/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>{% block title %}Feedback {% endblock %}</title>
+</head>
+
+<body>
+
+<div id="menu-bars" class="fas fa-bars"></div>
+
+<header>
+   
+    <div class="user">
+        <img src="../static/images/logo.jpg" alt="">
+        <a href="#" class="logo"><span>Assess</span>Ment</a>
+    </div>
+
+    <ul class="navbar">
+        <a href="/about">About us</a> 
+        <a href="/">Logout</a>
+
+    </ul>
+      
+    <div class="social_icon">
+        <span><a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a></span>
+        <span><a href="https://www.twitter.com"><i class="fab fa-twitter"></i></a></span>
+        <span><a href="https://www.linkedin.com"><i class="fab fa-linkedin"></i></a></span>
+        <span><a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a></span>
+    </div>
+</header>
+<!-- header section ends     -->
+
+<!-- contact section starts  -->
+
+<section class="contact" id="contact">
+
+    <h1 class="heading"> contact <span> me </span> </h1>
+
+    <div class="icons-container">
+
+        <div class="content">
+
+            <h3 class="title">contact info</h3>
+
+            <div class="icons">
+                <h3> <i class="fas fa-envelope"></i> <span>aleushea@gmail.com </span></h3>
+                <h3> <i class="fas fa-phone"></i> <span>+251911013678 </span></h3>
+                <h3> <i class="fas fa-map-marker-alt"></i><span> Wolaita Sodo , Ethiopia.</span></h3>
+            </div>
+        </div>
+
+    </div>
+    
+    <form name="submit-to-google-sheet">
+
+        <input type="text" name="Name" placeholder="Your Name" class="box"/>
+        <input type="email" name="Email" placeholder="Your Email" class="box"/>
+        <input type="number" name="Phone" placeholder="Your Phone Number" value="" class="box"/>
+
+        <textarea name="Message" placeholder="Message" cols="30" rows="10"></textarea>
+
+        <input type="submit" class="btn" value="send message">
+
+    </form>
+    <h3> where can you find me </h3>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1599.0227586922697!2d37.75902673602105!3d6.836535457245149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x17b1b17279f90ba3%3A0x7dd8d83ada211a8f!2sAlemayehu%20Gebremichael!5e1!3m2!1sen!2set!4v1712369353561!5m2!1sen!2set" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+</section>
+
+<!-- contact section ends -->
+
+<!-- footer section  -->
+<footer class="footer"> created by <span> mr. Alemayehu GebreMichael</span> | all rights reserved! </footer>
+
+
+
+<!-- custom css file link -->
+<script src="../static/js/script.js"></script>
+</body>
+
+</html>
