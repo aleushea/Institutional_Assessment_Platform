@@ -23,29 +23,29 @@
 	    		<h1>Login Your Account</h1>
 	    	</div>
 			
-			<!-- flash messages categorized starts-->
-			{% with messages = get_flashed_messages(with_categories=True) %}
-			{% if messages %}
-				{% for category, message in messages %}
-				{% if category == 'error' %}
-				<div class="alert alert-danger alter-dismissable fade show" role="alert">
-					{{message}}
-					<button type="button" class="close" data-dismiss="alert">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				{% else %}
-				<div class="alert alert-success alter-dismissable fade show" role="alert">
-					{{message}}
-					<button type="button" class="close" data-dismiss="alert">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				{% endif %}
-				{% endfor %}
+		<!-- flash messages categorized starts-->
+		{% with messages = get_flashed_messages(with_categories=True) %}
+		{% if messages %}
+			{% for category, message in messages %}
+			{% if category == 'error' %}
+			<div class="alert alert-danger alter-dismissable fade show" role="alert">
+				{{message}}
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			{% else %}
+			<div class="alert alert-success alter-dismissable fade show" role="alert">
+				{{message}}
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 			{% endif %}
-			{% endwith %}
-			<!-- flash messages categorized ends -->
+			{% endfor %}
+		{% endif %}
+		{% endwith %}
+		<!-- flash messages categorized ends -->
 
 			<form method="POST" action= "/login">	
                 <div class="User_inf">

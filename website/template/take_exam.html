@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Exam - {{ exam.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Take Exam - {{ exam.name }}</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('exams.take_exam', exam_id=exam.id) }}">
+            {% for question in questions %}
+                <div class="question">
+                    <h3>{{ question.text }}</h3>
+                    {% for option, text in question.options.items() %}
+                        <div class="option">
+                            <input type="radio" id="question_{{ question.id }}" name="question_{{ question.id }}" value="{{ loop.index0 }}">
+                            <label for="question_{{ question.id }}">{{ option }}. {{ text }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit Exam</button>
+        </form>
+    </div>
+</body>
+</html>

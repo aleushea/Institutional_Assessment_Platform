@@ -1,6 +1,6 @@
 from flask  import Blueprint, render_template, request, flash, redirect, url_for
-from .db import db
-from .models import User, Exam
+# from .db import db
+from .models import User, db, Question
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, login_required, logout_user, current_user
@@ -18,7 +18,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in sucessfully!', category='success')
                 # login_user(User, remember=True)
-                return redirect(url_for('auth.exam'))                      
+                return redirect(url_for('auth.Examination'))                      
             else:
                 flash('Incorrect Password.try again.', category='error')
         else:
@@ -31,10 +31,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
-@auth.route('/exam', methods=['GET', 'POST'])
-def exam():
-    return render_template("exam.html")
 
 @auth.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
@@ -85,3 +81,24 @@ def sign_up():
             return render_template("sign_up.html")
     
     return render_template("sign_up.html")
+
+@auth.route('/insert_question', methods=['POST'])
+def insert_question():
+    if request.method == 'POST':
+        question_text = request.form['question']
+        choice1 = request.form['choice1']
+        choice2 = request.form['choice2']
+        choice3 = request.form['choice3']
+        choice4 = request.form['choice4']
+        correct_answer = int(request.form['answer'])
+
+        new_question = Question(question_text=question_text, choice1=choice1, choice2=choice2, choice3=choice3, choice4=choice4, correct_answer=correct_answer)
+        db.session.add(new_question)
+        db.session.commit()
+
+        return "Question inserted successfully!"
+
+@auth.route('/Examination', methods=['GET', 'POST'])
+def Examination():
+    questions = Question.query.all()
+    return render_template('Examination.html', questions=questions)

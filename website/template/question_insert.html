@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Insertion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Insert New Question</h1>
+    <form action="insert_question.py" method="POST">
+        <label for="question">Question:</label>
+        <input type="text" name="question" required><br><br>
+
+        <label for="choice1">Choice 1:</label>
+        <input type="text" name="choice1" required><br><br>
+
+        <label for="choice2">Choice 2:</label>
+        <input type="text" name="choice2" required><br><br>
+
+        <label for="choice3">Choice 3:</label>
+        <input type="text" name="choice3" required><br><br>
+
+        <label for="choice4">Choice 4:</label>
+        <input type="text" name="choice4" required><br><br>
+
+        <label for="answer">Correct Answer (1-4):</label>
+        <input type="number" name="answer" min="1" max="4" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
