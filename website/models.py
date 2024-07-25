@@ -17,6 +17,7 @@ class Exam(db.Model):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.VARCHAR(50), unique=True)
+    role = db.Column(db.String(20), nullable=False)
     phone_number = db.Column(db.VARCHAR(20), unique=True)
     password = db.Column(db.VARCHAR(150))
     score = db.Column(db.Integer)
@@ -32,6 +33,3 @@ class Question(db.Model):
     choice3 = db.Column(db.String(100))
     choice4 = db.Column(db.String(100))
     correct_answer = db.Column(db.Integer)
-
-    def __str__(self):
-        return self.question_text

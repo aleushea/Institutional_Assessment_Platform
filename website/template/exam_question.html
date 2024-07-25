@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>{% block title %}Take Exam {% endblock %}</title>
+</head>
+
+<body>
+
+<header>
+   
+    <div class="user">
+        <img src="../static/images/logo.jpg" alt="">
+        <a href="#" class="logo"><span>Assess</span>Ment</a>
+    </div>
+
+    <ul class="navbar">
+        <a href="/">Logout</a> 
+        <a href="/base">About us</a> 
+        <a href="/feedback">Feedback</a> 
+        <a href="/feedback">feedback</a> 
+        <a href="/insert_question">Insert Question</a> 
+    </ul>
+    
+    <div class="social_icon">
+        <span><a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a></span>
+        <span><a href="https://www.twitter.com"><i class="fab fa-twitter"></i></a></span>
+        <span><a href="https://www.linkedin.com"><i class="fab fa-linkedin"></i></a></span>
+        <span><a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a></span>
+    </div>
+</header>
+<!-- header section ends     -->
+    <h1 class="heading"> Department of<span> natural resource  </span></br> institutional Assessment</h1>    
+    </div>
+       
+   <h1>Exam Question</h1>
+    <form action="/submit_answer" method="POST">
+        <p>{{ question_text }}</p>
+        <br>
+        <br> 
+        <div><input type="radio" name="answer" value="1"> {{ choice1 }} </div>   
+        <div><input type="radio" name="answer" value="2"> {{ choice2 }} </div> 
+        <div><input type="radio" name="answer" value="3"> {{ choice3 }} </div> 
+        <div><input type="radio" name="answer" value="4"> {{ choice4 }} </div> 
+        <br>
+        <br>
+    </form>
+    <section class="footer">
+        <div class="button-container">
+            <a href="#previous" class="btn">Previous Question</a>
+            <button type="submit">Submit Answer</button>
+            <a href="#Next" class="btn">Next Question</a>
+            <!--  <a href="#End_exam" class="btne">End exam</a>  -->
+        </div>
+    
+</body>
+</html>

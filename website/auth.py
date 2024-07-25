@@ -9,21 +9,39 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    role = request.args.get('role')  # Extract the role parameter from the URL
+    
     if request.method == 'POST':
         phone_number = request.form.get('phone_number')
         password = request.form.get('password')
-    
+        
         user = User.query.filter_by(phone_number=phone_number).first()
         if user:
             if check_password_hash(user.password, password):
-                flash('Logged in sucessfully!', category='success')
-                # login_user(User, remember=True)
-                return redirect(url_for('auth.Examination'))                      
+                flash('Logged in successfully!', category='success')
+                if user.role == 'student':
+                    # Redirect student to student dashboard
+                    return redirect(url_for('auth.display_exam_question'))
+                elif user.role == 'teacher':
+                    # Redirect teacher to teacher dashboard
+                    return redirect(url_for('teacher.dashboard'))
+                elif user.role == 'sys_admin':
+                    # Redirect sys_admin to sys_admin dashboard
+                    return redirect(url_for('sys_admin.dashboard'))
             else:
-                flash('Incorrect Password.try again.', category='error')
+                flash('Incorrect Password. Try again.', category='error')
         else:
-            flash('The user doesnt exist please create an acoount', category='error')
-
+            flash('The user does not exist. Please create an account.', category='error')
+    
+        if role == 'student':
+            return render_template('student_login.html')
+        elif role == 'teacher':
+            return render_template('teacher_login.html')
+        elif role == 'sys_admin':
+            return render_template('sys_admin_login.html')
+        else:
+            # Handle other cases or provide a default response
+            return "Invalid role selected"
     return render_template("login.html")
 
 @auth.route('/logout')
@@ -36,6 +54,7 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         full_name = request.form.get('full_name')
+        role = request.form.get('role') 
         phone_number = request.form.get('phone_number')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
@@ -63,7 +82,7 @@ def sign_up():
             return render_template("sign_up.html")
         
         # Create a new user
-        new_user = User(full_name=full_name, phone_number=phone_number, password=generate_password_hash(password1, method='pbkdf2:sha256'))
+        new_user = User(full_name=full_name, role=role, phone_number=phone_number, password=generate_password_hash(password1, method='pbkdf2:sha256'))
         
         try:
             db.session.add(new_user)
@@ -101,4 +120,70 @@ def insert_question():
 @auth.route('/Examination', methods=['GET', 'POST'])
 def Examination():
     questions = Question.query.all()
-    return render_template('Examination.html', questions=questions)
+    return render_template('take_exam.html', questions=questions)
+
+@auth.route('/exam_question', methods=['GET', 'POST'])
+def display_exam_question():
+    question = Question.query.first()  # Retrieve the first question from the database for demonstration
+    return render_template('exam_question.html', 
+                           question_text=question.question_text,
+                           choice1=question.choice1,
+                           choice2=question.choice2,
+                           choice3=question.choice3,
+                           choice4=question.choice4)
+
+@auth.route('/manage_questions', methods=['GET', 'POST'])
+def manage_questions():
+    # Add authentication check here to ensure only teachers can access this route
+    if request.method == 'GET':
+        questions = Question.query.all()  # Retrieve all questions from the database
+        return render_template('manage_questions.html', questions=questions)
+    
+    elif request.method == 'POST':
+        # Add, edit, or delete functionality for questions here
+        # Example code to add a new question:
+        new_question = Question(question_text='New question', choice1='Choice 1', choice2='Choice 2', choice3='Choice 3', choice4='Choice 4')
+        db.session.add(new_question)
+        db.session.commit()
+        
+        flash('New question added successfully!', category='success')
+        return redirect(url_for('auth.manage_questions'))
+    
+@auth.route('/manage_users', methods=['GET', 'POST'])
+def manage_users():
+    # Add authentication check here to ensure only sys_admin can access this route
+    
+    if request.method == 'GET':
+        users = User.query.all()  # Retrieve all users from the database
+        return render_template('manage_users.html', users=users)
+    
+    elif request.method == 'POST':
+        # Add functionality to give rights to users here
+        # Example code to grant admin rights to a user:
+        user_id = request.form.get('user_id')
+        user = User.query.get(user_id)
+        user.is_admin = True
+        db.session.commit()
+        
+        flash('Admin rights granted to the user successfully!', category='success')
+        return redirect(url_for('auth.manage_users'))
+
+
+@auth.route('/schedule_exam', methods=['GET', 'POST'])
+def schedule_exam():
+    # Add authentication check here to ensure only sys_admin can access this route
+    
+    if request.method == 'GET':
+        # Render the schedule exam form
+        return render_template('schedule_exam.html')
+    
+    elif request.method == 'POST':
+        # Add functionality to schedule exams here
+        # Example code to schedule an exam:
+        exam_date = request.form.get('exam_date')
+        exam_subject = request.form.get('exam_subject')
+        
+        # Code to schedule the exam in the database
+        
+        flash('Exam scheduled successfully!', category='success')
+        return redirect(url_for('auth.schedule_exam'))

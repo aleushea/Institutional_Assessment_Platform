@@ -42,52 +42,27 @@
     <!-- header section ends     -->
     <section class="contact" id="contact">
         <div class="container">
-        <form method="post">
-        
-           <textarea name="ques" class="form-control" rows="8" cols="150" placeholder="Enter the question" >
-
-           </textarea>
-            <br>
-            <br>
-            
-
-            <div class="User_inf">
-                
-                <div class="User_inf">
-                    <p><input type="radio"  class="form-control" value=1 name="options"> 
-                        <input type="text" class="form-control" name="a" class="opt" rows="1" > 
-                    </p>
-                    <br><br>       
-                </div>
-                <div class="User_inf">
-                    <input type="radio" value=2 name="options">
-                    <input type="text"  name="b" rows="1" >
-                    <br><br>
-                </div>
+        <form action="/add_question" method="post">
+            <label for="question_text">Question Text:</label><br>
+            <input type="text" id="question_text" name="question_text" required><br><br>
     
-                </div>
-                <div class="User_inf">
-                    <input type="radio"  value=3  name="options">
-                    <input type="text"   name="c" rows="1">
-                    <br><br>
-                </div>
-                <div class="User_inf">
-                    <input type="radio" value=4  name="options">
-                    <input type="text"  name="d" rows="1" >
-                    <br><br>
-                </div>
+            <label for="choice1">Choice 1:</label><br>
+            <input type="text" id="choice1" name="choice1" required><br><br>
     
+            <label for="choice2">Choice 2:</label><br>
+            <input type="text" id="choice2" name="choice2" required><br><br>
     
-            </div>
-      
-        <center>
-            <p class="link-color">* Select answer before confirming!</p>
-            <button style="margin:25px;" class="btn btn-primary" href="/questions">Confirm Question</button>
+            <label for="choice3">Choice 3:</label><br>
+            <input type="text" id="choice3" name="choice3" required><br><br>
     
-            <a class="btn btn-primary" href="/displayquestions">End</a>
-        </center>
+            <label for="choice4">Choice 4:</label><br>
+            <input type="text" id="choice4" name="choice4" required><br><br>
+    
+            <label for="correct_answer">Correct Answer (1-4):</label><br>
+            <input type="number" id="correct_answer" name="correct_answer" min="1" max="4" required><br><br>
+    
+            <input type="submit" value="Add Question">
         </form>
-
     </section>
         
 </body>

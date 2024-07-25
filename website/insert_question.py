@@ -1,16 +1,17 @@
-from flask import Flask, request, render_template
+from flask import Blueprint, request, jsonify
+from .models import db, Question
 
-app = Flask(__name__)
+insert_question_bp = Blueprint('insert_question', __name__)
 
-@app.route('/insert_question', methods=['POST'])
+@insert_question_bp.route('/insert_question', methods=['POST'])
 def insert_question():
-    question = request.form['question']
+    question_text = request.form['question']
     choices = [request.form['choice1'], request.form['choice2'], request.form['choice3'], request.form['choice4']]
-    answer = int(request.form['answer'])
+    correct_answer = int(request.form[' correct_answer'])
 
-    # Add code to insert the question, choices, and answer into your database here
+    new_question = Question(question=question_text, choice1=choices[0], choice2=choices[1], choice3=choices[2], choice4=choices[3],  correct_answer= correct_answer)
+
+    db.session.add(new_question)
+    db.session.commit()
 
     return "Question inserted successfully!"
-
-if __name__ == '__main__':
-    app.run(debug=True)
