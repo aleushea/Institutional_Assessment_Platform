@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
 from .models import db, Question
 
-insert_question_bp = Blueprint('insert_question', __name__)
+Add_question_bp = Blueprint('Add_question', __name__)
 
-@insert_question_bp.route('/insert_question', methods=['POST'])
-def insert_question():
+@Add_question_bp.route('/Add_question', methods=['POST'])
+def Add_question():
     question_text = request.form['question']
     choices = [request.form['choice1'], request.form['choice2'], request.form['choice3'], request.form['choice4']]
     correct_answer = int(request.form[' correct_answer'])

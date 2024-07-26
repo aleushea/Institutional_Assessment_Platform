@@ -43,7 +43,7 @@
 <!-- header section ends     -->
 
     <div class="container">
-        <form action="/insert_ques" method="post">
+        <form action="/Add_question" method="post">
             <div class="form-group">
                 <textarea name="ques" class="form-control" placeholder="Enter the question"></textarea>
             </div>
@@ -67,10 +67,9 @@
                 <label for="correct_answer">Correct Answer (1-4):</label>
                 <input type="number" id="correct_answer" name="correct_answer" min="1" max="4" class="form-control" required>
             </div>
-            <p class="text-danger">* Provide the answer before confirming!</p>
-            <div class="text-center">
-                <button class="btn btn-primary" href="/questions">Add this Question</button>
-                <a class="btn btn-success" href="/displayquestions">End</a>
+             <div class="text-center">
+                <button class="btn btn-primary" href="/Add_question">Add this Question</button>
+                <a class="btn btn-success" href="/Add_question">End</a>
             </div>
         </form>
     </div>

@@ -6,7 +6,7 @@ from .models import db
 from .question import question_bp  # Import your question blueprint
 from .take_exam import take_Exam
 from .exam_Page import *
-from .insert_question import *
+from .Add_question import *
 
 
 def create_app():
@@ -37,7 +37,7 @@ def create_app():
     app.register_blueprint(take_Exam)
     
     app.register_blueprint(exam_page_bp)
-    app.register_blueprint(insert_question_bp)
+    app.register_blueprint(Add_question_bp)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

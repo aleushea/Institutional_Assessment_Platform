@@ -32,7 +32,7 @@ def login():
             flash('The user does not exist. Please create an account.', category='error')
     
     if role == 'student':
-        return render_template('student_login.html')
+        return render_template('login_as_student.html')
     elif role == 'teacher':
         return render_template('login_as_teacher.html')
     elif role == 'sys_admin':
@@ -95,7 +95,7 @@ def sign_up():
         except Exception as e:
             db.session.rollback()
             flash('An error occurred while creating the account. Please try again.', category='error')
-            return render_template("sign_up.html")
+            return render_template("login.html")
     
     return render_template("sign_up.html")
 
@@ -120,20 +120,23 @@ class CustomJSONEncoder(JSONEncoder):
 
 @auth.route('/Examination', methods=['GET', 'POST'])
 def Examination():
-    questions = Question.query.all()
-    questions_data = []
-    for question in questions:
+    first_question = Question.query.first()
+    
+    if first_question:
         question_data = {
-            'id': question.id,
-            'question_text': question.question_text,
-            'choice1': question.choice1,
-            'choice2': question.choice2,
-            'choice3': question.choice3,
-            'choice4': question.choice4
+            'id': first_question.id,
+            'question_text': first_question.question_text,
+            'choice1': first_question.choice1,
+            'choice2': first_question.choice2,
+            'choice3': first_question.choice3,
+            'choice4': first_question.choice4
         }
-        questions_data.append(question_data)
-    return render_template('exam_question.html', questions=questions_data)
-
+        return render_template('exam_question.html', question=question_data)
+    else:
+        # Handle the case where there are no questions in the database
+        no_question_message = "There are currently no questions in the database."
+        return render_template('no_questions_message.html', message=no_question_message)
+    
 @auth.route('/submit_answer', methods=['POST'])
 def submit_answer():
     if request.method == 'POST':

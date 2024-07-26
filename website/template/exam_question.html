@@ -39,10 +39,9 @@
 <!-- header section ends     -->
     <h1 class="heading"> Department of<span> natural resource  </span></br> institutional Assessment</h1>    
     </div>
-   <h1>Exam Question</h1>
    <h1>Exam Questions</h1>
    {% for question in questions %}
-       <form action="/submit_answer" method="post">
+       <form action="/Add_question" method="post">
            <p>{{ question.question_text }}</p>
            <br>
            <div><input type="radio" name="answer" value="1"> {{ question.choice1 }} </div>
