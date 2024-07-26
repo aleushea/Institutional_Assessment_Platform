@@ -21,11 +21,12 @@
     </div>
 
     <ul class="navbar">
+        <a href="/submit_answer">Take Exam</a> 
+        <a href="/feedback">chance subject</a> 
+        <a href="/feedback">View Score</a> 
+        <a href="/feedback">provide feedback</a>
         <a href="/">Logout</a> 
-        <a href="/base">About us</a> 
-        <a href="/feedback">Feedback</a> 
-        <a href="/feedback">feedback</a> 
-        <a href="/insert_question">Insert Question</a> 
+ 
     </ul>
     
     <div class="social_icon">
@@ -38,26 +39,54 @@
 <!-- header section ends     -->
     <h1 class="heading"> Department of<span> natural resource  </span></br> institutional Assessment</h1>    
     </div>
-       
    <h1>Exam Question</h1>
-    <form action="/submit_answer" method="POST">
-        <p>{{ question_text }}</p>
-        <br>
-        <br> 
-        <div><input type="radio" name="answer" value="1"> {{ choice1 }} </div>   
-        <div><input type="radio" name="answer" value="2"> {{ choice2 }} </div> 
-        <div><input type="radio" name="answer" value="3"> {{ choice3 }} </div> 
-        <div><input type="radio" name="answer" value="4"> {{ choice4 }} </div> 
-        <br>
-        <br>
-    </form>
+   <h1>Exam Questions</h1>
+   {% for question in questions %}
+       <form action="/submit_answer" method="post">
+           <p>{{ question.question_text }}</p>
+           <br>
+           <div><input type="radio" name="answer" value="1"> {{ question.choice1 }} </div>
+           <div><input type="radio" name="answer" value="2"> {{ question.choice2 }} </div>
+           <div><input type="radio" name="answer" value="3"> {{ question.choice3 }} </div>
+           <div><input type="radio" name="answer" value="4"> {{ question.choice4 }} </div>
+           <input type="hidden" name="question_id" value="{{ question.id }}">
+           <br>
+           <button type="submit">Submit Answer</button>
+       </form>
+       <hr>
+   {% endfor %}
     <section class="footer">
         <div class="button-container">
             <a href="#previous" class="btn">Previous Question</a>
-            <button type="submit">Submit Answer</button>
+            <button type="submit">End exam</button>
             <a href="#Next" class="btn">Next Question</a>
             <!--  <a href="#End_exam" class="btne">End exam</a>  -->
         </div>
-    
+        <div id="question-container"></div>
+        <button onclick="showNextQuestion()">Next Question</button>
+        
+        <script>
+        const questions = [/* Array of questions fetched from the server */];
+        let currentQuestionIndex = 0;
+        
+        function showNextQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const question = questions[currentQuestionIndex];
+                document.getElementById('question-container').innerHTML = `
+                    <h2>Question ${currentQuestionIndex + 1}</h2>
+                    <p>${question.question_text}</p>
+                    <ul>
+                        <li>${question.choice1}</li>
+                        <li>${question.choice2}</li>
+                        <li>${question.choice3}</li>
+                        <li>${question.choice4}</li>
+                    </ul>
+                `;
+                currentQuestionIndex++;
+            } else {
+                document.getElementById('question-container').innerHTML = "<p>No more questions.</p>";
+            }
+        }
+        </script
 </body>
 </html>

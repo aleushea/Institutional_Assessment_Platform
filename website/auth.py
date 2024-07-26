@@ -1,5 +1,6 @@
+from json import JSONEncoder
 from flask  import Blueprint, render_template, request, flash, redirect, url_for
-# from .db import db
+from .db import db
 from .models import User, db, Question
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
@@ -20,28 +21,25 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 if user.role == 'student':
-                    # Redirect student to student dashboard
-                    return redirect(url_for('auth.display_exam_question'))
+                    return redirect(url_for('auth.Examination'))
                 elif user.role == 'teacher':
-                    # Redirect teacher to teacher dashboard
-                    return redirect(url_for('teacher.dashboard'))
+                    return redirect(url_for('auth.manage_questions'))
                 elif user.role == 'sys_admin':
-                    # Redirect sys_admin to sys_admin dashboard
-                    return redirect(url_for('sys_admin.dashboard'))
+                    return redirect(url_for('auth.manage_users'))
             else:
                 flash('Incorrect Password. Try again.', category='error')
         else:
             flash('The user does not exist. Please create an account.', category='error')
     
-        if role == 'student':
-            return render_template('student_login.html')
-        elif role == 'teacher':
-            return render_template('teacher_login.html')
-        elif role == 'sys_admin':
-            return render_template('sys_admin_login.html')
-        else:
-            # Handle other cases or provide a default response
-            return "Invalid role selected"
+    if role == 'student':
+        return render_template('student_login.html')
+    elif role == 'teacher':
+        return render_template('login_as_teacher.html')
+    elif role == 'sys_admin':
+        return render_template('login_as_admin.html')
+    else:
+        return "Invalid role selected"
+    
     return render_template("login.html")
 
 @auth.route('/logout')
@@ -101,6 +99,50 @@ def sign_up():
     
     return render_template("sign_up.html")
 
+@auth.route('/student_login')
+def student_login():
+    return render_template('student_login.html', role='student')
+
+@auth.route('/login_as_teacher')
+def login_as_teacher():
+    return render_template('login_as_teacher.html', role='teacher')
+
+@auth.route('/login_as_admin')
+def login_as_admin():
+    return render_template('login_as_admin.html', role='sys_admin')
+
+class CustomJSONEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Question):
+            return obj.__dict__
+        return super().default(obj)
+
+
+@auth.route('/Examination', methods=['GET', 'POST'])
+def Examination():
+    questions = Question.query.all()
+    questions_data = []
+    for question in questions:
+        question_data = {
+            'id': question.id,
+            'question_text': question.question_text,
+            'choice1': question.choice1,
+            'choice2': question.choice2,
+            'choice3': question.choice3,
+            'choice4': question.choice4
+        }
+        questions_data.append(question_data)
+    return render_template('exam_question.html', questions=questions_data)
+
+@auth.route('/submit_answer', methods=['POST'])
+def submit_answer():
+    if request.method == 'POST':
+        question_id = request.form.get('question_id')
+        answer = request.form.get('answer')
+        # Process the submitted answer here
+        return f"Question ID: {question_id}, Answer: {answer}"
+    return "Invalid request"
+
 @auth.route('/insert_question', methods=['POST'])
 def insert_question():
     if request.method == 'POST':
@@ -114,23 +156,14 @@ def insert_question():
         new_question = Question(question_text=question_text, choice1=choice1, choice2=choice2, choice3=choice3, choice4=choice4, correct_answer=correct_answer)
         db.session.add(new_question)
         db.session.commit()
-
         return "Question inserted successfully!"
-
-@auth.route('/Examination', methods=['GET', 'POST'])
-def Examination():
-    questions = Question.query.all()
-    return render_template('take_exam.html', questions=questions)
+    else:
+        return "Method Not Allowed", 405  # Return a 405 status code for methods other than POST
 
 @auth.route('/exam_question', methods=['GET', 'POST'])
 def display_exam_question():
-    question = Question.query.first()  # Retrieve the first question from the database for demonstration
-    return render_template('exam_question.html', 
-                           question_text=question.question_text,
-                           choice1=question.choice1,
-                           choice2=question.choice2,
-                           choice3=question.choice3,
-                           choice4=question.choice4)
+    que = Question.query.all()  # Retrieve the first question from the database for demonstration
+    return render_template('exam_question.html', question_text=que.question_text, choice1=que.choice1, choice2=que.choice2, choice3=que.choice3, choice4=que.choice4)
 
 @auth.route('/manage_questions', methods=['GET', 'POST'])
 def manage_questions():
@@ -142,7 +175,7 @@ def manage_questions():
     elif request.method == 'POST':
         # Add, edit, or delete functionality for questions here
         # Example code to add a new question:
-        new_question = Question(question_text='New question', choice1='Choice 1', choice2='Choice 2', choice3='Choice 3', choice4='Choice 4')
+        new_question = Question(question_text='question_text', choice1='Choice 1', choice2='Choice 2', choice3='Choice 3', choice4='Choice 4')
         db.session.add(new_question)
         db.session.commit()
         

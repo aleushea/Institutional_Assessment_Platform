@@ -1,63 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %} Questions {% endblock %}
-       
-{% block style %}
-<style>
-    .container{
-    margin-top:40px;
-    }
-   .col-sm {
-  width: 100%;
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>{% block title %} Teachers {% endblock %}</title>
+</head>
 
-  display: inline-block;
-
-}
-.opt{
-width:90%;
-  padding: 12px 20px;
-  margin: 8px 0;
-
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-</style>
-{% endblock %}
-
-<div class="container">
-
-    <form method="post">
+<body>
 
 
-        <center><textarea name="ques" class="form-control" rows="8" cols="150" placeholder="Enter the question" ></textarea></center>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-sm">
 
-                    <input type="radio"  value=1 name="options">  <input type="text" name="a" class="opt" rows="1" >        </div>
-            <div class="col-sm">
-                <input type="radio" value=2   name="options">  <input type="text" name="b" class="opt"  rows="1" ><br><br>
+<div id="menu-bars" class="fas fa-bars"></div>
+
+<!-- header section starts -->
+<header>
+   
+    <div class="user">
+        <img src="../static/images/logo.jpg" alt="">
+        <a href="#" class="logo"><span>Assess</span>Ment</a>
+    </div>
+   
+    <ul class="navbar">
+        <a href="/">Home</a> 
+        <a href="/add_exam?role=teacher">Add Question </a>
+        <a href="/delet_exam?role=teacher">Delet Question</a>
+        <a href="/edit_exam?role=teacher">Edit Question</a>
+        <a href="/view_exam?role=teacher">View Question</a>
+        <a href="/">Logout </a> 
+    </ul>
+
+    <div class="social_icon">
+        <span><a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a></span>
+        <span><a href="https://www.twitter.com"><i class="fab fa-twitter"></i></a></span>
+        <span><a href="https://www.linkedin.com"><i class="fab fa-linkedin"></i></a></span>
+        <span><a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a></span>
+    </div>
+</header>
+<!-- header section ends     -->
+
+    <div class="container">
+        <form action="/insert_ques" method="post">
+            <div class="form-group">
+                <textarea name="ques" class="form-control" placeholder="Enter the question"></textarea>
             </div>
-
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <input type="radio"  value=3  name="options">   <input type="text" class="opt"  name="c" rows="1"><br><br>
+            <div class="form-group">
+                <label for="choice1">Choice 1:</label>
+                <input type="text" id="choice1" name="choice1" class="form-control" required>
             </div>
-            <div class="col-sm">
-                <input type="radio" value=4  name="options">  <input type="text" class="opt"   name="d" rows="1" ><br><br>
+            <div class="form-group">
+                <label for="choice2">Choice 2:</label>
+                <input type="text" id="choice2" name="choice2" class="form-control" required>
             </div>
-
-
-        </div>
-        <p class="text-danger">* Select answer before confirming!</p>
-
-        <center><button style="margin:25px;" class="btn btn-primary btn-lg" href="/questions">Confirm Question</button>
-
-       <a class="btn btn-success btn-lg" href="/displayquestions">End</a></center>
-    </form>
-
-    
-
-</div>
+            <div class="form-group">
+                <label for="choice3">Choice 3:</label>
+                <input type="text" id="choice3" name="choice3" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="choice4">Choice 4:</label>
+                <input type="text" id="choice4" name="choice4" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="correct_answer">Correct Answer (1-4):</label>
+                <input type="number" id="correct_answer" name="correct_answer" min="1" max="4" class="form-control" required>
+            </div>
+            <p class="text-danger">* Provide the answer before confirming!</p>
+            <div class="text-center">
+                <button class="btn btn-primary" href="/questions">Add this Question</button>
+                <a class="btn btn-success" href="/displayquestions">End</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
