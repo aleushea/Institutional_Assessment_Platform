@@ -131,9 +131,10 @@ def Examination():
             'choice3': first_question.choice3,
             'choice4': first_question.choice4
         }
+        app.logger.info("Question retrieved successfully: %s", question_data)
         return render_template('exam_question.html', question=question_data)
     else:
-        # Handle the case where there are no questions in the database
+        app.logger.info("No questions found in the database.")
         no_question_message = "There are currently no questions in the database."
         return render_template('no_questions_message.html', message=no_question_message)
     
